@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State var motionData = MotionObserver()
     
     var body: some View {
         ZStack {
@@ -26,6 +27,18 @@ struct HomeView: View {
             // Blur overlay
             .overlay(.ultraThinMaterial)
             .ignoresSafeArea()
+            
+            GeometryReader { proxy in
+                let size = proxy.size
+                
+                Image("background")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: size.width, height: size.height)
+                    .cornerRadius(25)
+            }
+            .frame(height: 450)
+            .padding(.horizontal, 40)
         }
         // Dark Mode Preference
         .environment(\.colorScheme, .dark)
