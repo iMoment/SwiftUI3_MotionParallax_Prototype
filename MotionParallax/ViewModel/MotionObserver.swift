@@ -45,8 +45,8 @@ class MotionObserver: ObservableObject {
         var width = xValue * duration
         var height = yValue * duration
         
-        width = (width < 0 ? (-width > 30 ? -30 : width) : (width > 30 ? 30 : width))
-        height = (height < 0 ? (-height > 30 ? -30 : height) : (height > 30 ? 30 : height))
+        width = (width < 0 ? (-width > duration ? -duration : width) : (width > duration ? duration : width))
+        height = (height < 0 ? (-height > duration ? -duration : height) : (height > duration ? duration : height))
         // Avoiding if view goes over duration
         
         return CGSize(width: width, height: height)

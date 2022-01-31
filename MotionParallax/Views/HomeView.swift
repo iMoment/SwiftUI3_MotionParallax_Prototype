@@ -34,6 +34,8 @@ struct HomeView: View {
                 Image("background")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
+                    // only frame movement, apply negative offset
+//                    .offset(x: -motionData.movingOffset.width, y: -motionData.movingOffset.height)
                     .offset(motionData.movingOffset)
                     .frame(width: size.width * 2, height: size.height * 2)
                     // Applying offset to image to get parallax
@@ -49,7 +51,7 @@ struct HomeView: View {
         .onAppear(perform: {
             // duration = how much you need to move the view in both sides
             // keep in mind: padding is 40
-            motionData.fetchMotionData(duration: 30)
+            motionData.fetchMotionData(duration: 50)
         })
         // Dark Mode Preference
         .environment(\.colorScheme, .dark)
