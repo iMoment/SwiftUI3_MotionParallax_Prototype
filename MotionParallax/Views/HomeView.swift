@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var motionData = MotionObserver()
+    @StateObject var motionData = MotionObserver()
     
     var body: some View {
         ZStack {
@@ -39,7 +39,15 @@ struct HomeView: View {
             }
             .frame(height: 450)
             .padding(.horizontal, 40)
+            // Offset applied here
+            .offset(motionData.movingOffset)
         }
+        // Calling motion updater with duration
+        .onAppear(perform: {
+            // duration = how much you need to move the view in both sides
+            // keep in mind: padding is 40
+            motionData.fetchMotionData(duration: 30)
+        })
         // Dark Mode Preference
         .environment(\.colorScheme, .dark)
     }

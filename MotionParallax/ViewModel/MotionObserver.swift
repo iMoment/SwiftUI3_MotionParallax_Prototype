@@ -12,11 +12,15 @@ class MotionObserver: ObservableObject {
     // MARK: Motion Manager
     @Published var motionManager = CMMotionManager()
     
-    init() {
-        fetchMotionData()
-    }
+    // Storing Motion Data to animate view in parallax
+    // Roll -> x-axis, Pitch -> y-axis
+    @Published var xValue: CGFloat = 0
+    @Published var yValue: CGFloat = 0
     
-    func fetchMotionData() {
+    // Moving Offset
+    @Published var movingOffset: CGSize = .zero
+    
+    func fetchMotionData(duration: CGFloat) {
         // Calling motion updates handler
         motionManager.startDeviceMotionUpdates(to: .main) { data, error in
             if let error = error {
@@ -29,7 +33,18 @@ class MotionObserver: ObservableObject {
                 return
             }
             
-            print(data.attitude)
+            withAnimation {
+                self.xValue = data.attitude.roll
+                self.yValue = data.attitude.pitch
+                self.movingOffset = self.getOffset(duration: duration)
+            }
         }
+    }
+    
+    func getOffset(duration: CGFloat) -> CGSize {
+        let width = xValue * duration
+        let height = yValue * duration
+        
+        return CGSize(width: width, height: height)
     }
 }
