@@ -32,8 +32,8 @@ class MotionObserver: ObservableObject {
                 print("Error in Data")
                 return
             }
-            
-            withAnimation {
+            // Animating using time curve
+            withAnimation(.timingCurve(0.18, 0.78, 0.18, 1, duration: 0.77)) {
                 self.xValue = data.attitude.roll
                 self.yValue = data.attitude.pitch
                 self.movingOffset = self.getOffset(duration: duration)
@@ -42,8 +42,12 @@ class MotionObserver: ObservableObject {
     }
     
     func getOffset(duration: CGFloat) -> CGSize {
-        let width = xValue * duration
-        let height = yValue * duration
+        var width = xValue * duration
+        var height = yValue * duration
+        
+        width = (width < 0 ? (-width > 30 ? -30 : width) : (width > 30 ? 30 : width))
+        height = (height < 0 ? (-height > 30 ? -30 : height) : (height > 30 ? 30 : height))
+        // Avoiding if view goes over duration
         
         return CGSize(width: width, height: height)
     }

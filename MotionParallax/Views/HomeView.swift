@@ -34,10 +34,13 @@ struct HomeView: View {
                 Image("background")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
+                    .offset(motionData.movingOffset)
+                    .frame(width: size.width * 2, height: size.height * 2)
+                    // Applying offset to image to get parallax
                     .frame(width: size.width, height: size.height)
-                    .cornerRadius(25)
             }
             .frame(height: 450)
+            .cornerRadius(25)
             .padding(.horizontal, 40)
             // Offset applied here
             .offset(motionData.movingOffset)
